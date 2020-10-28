@@ -5,22 +5,22 @@ Launch EC2 Instances with specified configuration in YAML
 - *Create OS users*
 - *Able to do SSH to EC2 instances by enabling Security group for igress port 22 ie ssh_group* 
 ___
-#### Pre-Requirements:
+#### Pre-Requisites:
 
 - Python 3.8
 - pip3 
 - git 
-- Valid AWS credentials aws_access_key_id and aws_secret_access_key
+- Valid AWS credentials aws_access_key_id and aws_secret_access_key which have IAM admin access.
 
 #### Installation and Launch EC2 instances:
 
 ```
 $ git clone git@github.com:baipaneni/LaunchEC2Instances.git
 $ cd LaunchEC2Instances
-$ pip3 install pipenv
-$ pipenv install 
+$ sudo pip3 install pipenv
+
 ## Please replace <<aws_access_key_id>> and <<aws_secret_access_key>>  with your own AWS aws_access_key_id and aws_secret_access_key
-$ python ec2_launch.py --aws_access_key_id <<aws_access_key_id>> --aws_secret_access_key <<aws_secret_access_key>>
+$ pipenv run python ec2_launch.py --aws_access_key_id <<aws_access_key_id>> --aws_secret_access_key <<aws_secret_access_key>>
 
 ```
 #### Once the EC2 instances are up

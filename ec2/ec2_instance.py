@@ -23,7 +23,6 @@ class Ec2Instance:
             while True:
                 response = self.ec2_client.describe_instances(InstanceIds=[ec2_id])
                 ec2_info = response['Reservations'][0]['Instances'][0]
-                logger.info(ec2_info)
                 if ec2_info['PublicIpAddress']:
                     logger.info("Public IP for EC2 instance " + ec2_id + ":  " + ec2_info['PublicIpAddress'])
                     public_ips.append(ec2_info['PublicIpAddress'])
@@ -60,6 +59,7 @@ class Ec2Instance:
 
         for ec2 in ec2_instances:
             ec2.wait_until_running()
+            logger.info("Created EC2 Instance:  " + ec2.instance_id)
             ec2_ids.append(ec2.instance_id)
 
         return self._get_public_ips(ec2_ids)

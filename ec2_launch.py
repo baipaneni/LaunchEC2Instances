@@ -32,7 +32,11 @@ def print_ssh_commands(ec2_public_ips, ec2_logins):
 
 def launch_ec2():
     """ Main Launch method """
-    aws_session = boto3.Session(region_name=args.aws_region)
+    aws_session = boto3.Session(
+        region_name=args.aws_region,
+        aws_access_key_id=args.aws_access_key_id,
+        aws_secret_access_key=args.aws_secret_access_key
+    )
     ec2_client = aws_session.client('ec2')
     ec2_resource = aws_session.resource('ec2')
     ec2_launch_config = load_launch_config()
