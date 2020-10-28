@@ -20,7 +20,8 @@ $ cd LaunchEC2Instances
 $ sudo pip3 install pipenv
 $ pipenv install
 
-## For ec2_launch.py command replace <<aws_access_key_id>> and <<aws_secret_access_key>>  with your own AWS aws_access_key_id and aws_secret_access_key
+# To Run ec2_launch.py command, Please replace <<aws_access_key_id>> and <<aws_secret_access_key>> 
+# with your own AWS aws_access_key_id and aws_secret_access_key
 $ pipenv run python ec2_launch.py --aws_access_key_id <<aws_access_key_id>> --aws_secret_access_key <<aws_secret_access_key>>
 
 ```
