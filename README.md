@@ -18,8 +18,9 @@ ___
 $ git clone git@github.com:baipaneni/LaunchEC2Instances.git
 $ cd LaunchEC2Instances
 $ sudo pip3 install pipenv
+$ pipenv install
 
-## Please replace <<aws_access_key_id>> and <<aws_secret_access_key>>  with your own AWS aws_access_key_id and aws_secret_access_key
+## For ec2_launch.py command replace <<aws_access_key_id>> and <<aws_secret_access_key>>  with your own AWS aws_access_key_id and aws_secret_access_key
 $ pipenv run python ec2_launch.py --aws_access_key_id <<aws_access_key_id>> --aws_secret_access_key <<aws_secret_access_key>>
 
 ```
@@ -34,7 +35,8 @@ $ pipenv run python ec2_launch.py --aws_access_key_id <<aws_access_key_id>> --aw
  ssh -oStrictHostKeyChecking=no -l user2 -i /tmp/aws_ssh_keys/user2/id_rsa  18.132.48.229
 
 ```
-- Run above commands which you received in terminal and both users has sudo permissions.
+- Run SSH commands which you received from terminal .
+- Both users has sudo permissions.
 
 
 #### Help for ec2_launch.py
