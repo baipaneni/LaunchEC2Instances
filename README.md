@@ -3,6 +3,7 @@ Launch EC2 Instances with specified configuration in YAML
 - *Create EC2 instances*
 - *Create required EBS volumes and mount them*
 - *Create OS users*
+- *If config SSH public keys are invalid, creating new ones*
 - *Able to do SSH to EC2 instances by enabling Security group for igress port 22 ie ssh_group* 
 ___
 #### Pre-Requisites:
