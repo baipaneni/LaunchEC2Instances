@@ -1,0 +1,57 @@
+#!/bin/bash
+
+DEVICES_INFO="{{DEVICES_INFO}}"
+USERS_SSH_KEYS_INFO="{{USERS_SSH_KEYS_INFO}}"
+
+# Example:
+# DEVICES_INFO='/dev/xvda ext4 /data \n /dev/xvdf xfs /data2' ## ie device_name fs_type mount_point
+# USERS_SSH_KEYS_INFO="user1 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCyFgGobmiU2H+9TA3H5lx2F/MLUErDlq65PCj8Y1goarTdbZf2sDvYJjdwA8btHGn0scoYH0cSIjxUEteA+NjIMAiG94AcN+UXJH99XmenIGxwRKvludZL1Np2UXZRPLo1JgoGyCgypS3THTbkbOxeOZ3wGAEW9YYxNhZ96cHKl1ORxFOzZ80ZS4C+LQEFDCaMykBUFxilFhvUPpuyuj9BCPfRXBDcLyYYBObKcdBvnBjC5bezg+BB/ihQNn76PJjdVVxVd2WxUtyCjf4/+Sn3R0M2VPI9AUXfmoSjZVS1nasaKmgGeftVvzL3aqzQWHabxGIhBCqdQ4+7TrIeb6Kb user1@localhost \nuser2 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCyFgGobmiU2H+9TA3H5lx2F/MLUErDlq65PCj8Y1goarTdbZf2sDvYJjdwA8btHGn0scoYH0cSIjxUEteA+NjIMAiG94AcN+UXJH99XmenIGxwRKvludZL1Np2UXZRPLo1JgoGyCgypS3THTbkbOxeOZ3wGAEW9YYxNhZ96cHKl1ORxFOzZ80ZS4C+LQEFDCaMykBUFxilFhvUPpuyuj9BCPfRXBDcLyYYBObKcdBvnBjC5bezg+BB/ihQNn76PJjdVVxVd2WxUtyCjf4/+Sn3R0M2VPI9AUXfmoSjZVS1nasaKmgGeftVvzL3aqzQWHabxGIhBCqdQ4+7TrIeb6Kb user2@localhost"
+
+echo -e ${DEVICES_INFO} | while read -r device_info ; do
+	device_name=$(echo $device_info| awk '{print $1}')
+	device_fs_type=$(echo $device_info| awk '{print $2}')
+	mount_point=$(echo $device_info| awk '{print $3}')
+	mkfs_cmd="mkfs.${device_fs_type}"
+  echo $device_name
+
+  while [[ ! -b ${device_name} ]]; do
+    echo "waiting 15sec to find ${device_name}"
+    sleep 15
+  done
+
+	if [[  $(blkid  ${device_name}) == ""  ]]
+	then
+		${mkfs_cmd}  ${device_name}
+		device_uuid=$(blkid -o value -s  UUID   ${device_name})
+		echo "UUID=${device_uuid}     ${mount_point}  ${device_fs_type}    defaults  0   1" >> /etc/fstab
+		mkdir ${mount_point}
+		mount  ${mount_point}
+	else
+	  echo 	  "${device_name} not exists"
+	fi
+
+done
+
+
+echo -e ${USERS_SSH_KEYS_INFO} | while read -r user_info ; do
+  echo $user_info
+  user=$(echo $user_info| awk '{print $1}')
+  user_ssh_key_pub=$(echo $user_info|awk '{print $2 " " $3 " " $4 }')
+  echo $user_name
+  echo $user_ssh_key_pub
+
+  ## add user to linux
+  useradd  -m -s /bin/bash $user
+
+  # Give sudo access, no specific in requirements
+  usermod -a -G sudo $user
+  echo "$user ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/90-cloud-init-users
+  mkdir /home/$user/.ssh
+  echo $user_ssh_key_pub >> /home/$user/.ssh/authorized_keys
+
+  # Change ownership and access modes on .ssh
+  chown -R $user:$user /home/$user/.ssh
+  chmod -R 700 /home/$user/.ssh
+
+
+done
