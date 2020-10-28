@@ -37,4 +37,23 @@ $ python ec2_launch.py --aws_access_key_id <<aws_access_key_id>> --aws_secret_ac
 - Run above commands which you received in terminal and both users has sudo permissions.
 
 
+#### Help for ec2_launch.py
+
+```
+$ python ec2_launch.py -h
+usage: ec2_launch.py [-h] [--config_file CONFIG_FILE] [--aws_region AWS_REGION] --aws_access_key_id AWS_ACCESS_KEY_ID --aws_secret_access_key AWS_SECRET_ACCESS_KEY
+
+AWS EC2 Launch
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --config_file CONFIG_FILE
+                        YAML config_file
+  --aws_region AWS_REGION
+                        aws region to use
+  --aws_access_key_id AWS_ACCESS_KEY_ID
+                        use aws access_key_id
+  --aws_secret_access_key AWS_SECRET_ACCESS_KEY
+                        use aws_secret_access_key for key
+```
 
