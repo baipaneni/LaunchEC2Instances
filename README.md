@@ -10,6 +10,7 @@ ___
 - Python 3.8
 - pip3 
 - git 
+- Valid AWS credentials aws_access_key_id and aws_secret_access_key
 
 #### Installation and Launch EC2 instances:
 
@@ -20,14 +21,20 @@ $ pip3 install pipenv
 $ pipenv install 
 ## Please replace <<aws_access_key_id>> and <<aws_secret_access_key>>  with your own AWS aws_access_key_id and aws_secret_access_key
 $ python ec2_launch.py --aws_access_key_id <<aws_access_key_id>> --aws_secret_access_key <<aws_secret_access_key>>
+
 ```
 #### Once the EC2 instances are up
+*NOTE: Normally Launch EC2 instances takes 1-2 minutes before EC2 instances for use*
+
+- At the end of ec2_launch.py Example output
+
 ```
-NOTE: Normally Launch EC2 instances takes 1-2 minutes before EC2 instances for use
 
+ ssh -oStrictHostKeyChecking=no -l user1 -i /tmp/aws_ssh_keys/user1/id_rsa  18.132.48.229
+ ssh -oStrictHostKeyChecking=no -l user2 -i /tmp/aws_ssh_keys/user2/id_rsa  18.132.48.229
 
 ```
-
+- Run above commands which you received in terminal and both users has sudo permissions.
 
 
 
